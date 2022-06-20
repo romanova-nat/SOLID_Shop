@@ -22,22 +22,22 @@ public class BayProducts implements BayerImpl, ExpirationDateImpl, RussianProduc
         while (true) {
             System.out.println("Выберите номер товара и через пробел введите его количество, для завершения - \"end\"");
             String input2 = scanner.nextLine();
-           try {
-               if (input2.equals("end")) {
-                   break;
-               } else {
-                   String[] parts = input2.split(" ");
-                   productNumber = Integer.parseInt(parts[0]);
-                   productQuantity = Integer.parseInt(parts[1]);
+            try {
+                if (input2.equals("end")) {
+                    break;
+                } else {
+                    String[] parts = input2.split(" ");
+                    productNumber = Integer.parseInt(parts[0]);
+                    productQuantity = Integer.parseInt(parts[1]);
 
-                   Product choiceProduct = products.get(productNumber);
-                   int choiseQuantity = choiceProduct.getPrice() * productQuantity;
+                    Product choiceProduct = products.get(productNumber);
+                    int choiseQuantity = choiceProduct.getPrice() * productQuantity;
 
-                   personBuy.put(choiceProduct, choiseQuantity);
-               }
-           } catch (NumberFormatException e) {
-               System.out.println("Не корректный ввод");
-           }
+                    personBuy.put(choiceProduct, choiseQuantity);
+                }
+            } catch (NumberFormatException e) {
+                System.out.println("Не корректный ввод");
+            }
         }
 
         System.out.println("Ваша корзина:");
@@ -74,35 +74,30 @@ public class BayProducts implements BayerImpl, ExpirationDateImpl, RussianProduc
 
     @Override
     public Map<Product, Integer> ratingProduct(Map<Integer, Product> products) {
+
         Map<Product, Integer> rating = new HashMap<>();
+
         int sumOfRating = 0; // сумма рейтинга товара
         int numberOfRatings = 0; // количество введенных рейтингов
-        int productNumber; // номер продукта из списка, выбранный покупателем
-        int productRating; // рейтинг выставленный покупателем
+        Product choiceProduct = null;
+
         Scanner scanner = new Scanner(System.in);
 
-        while (true) {
-            System.out.println("Выберите номер товара и через пробел введите его рейтинг, для завершения - \"end\"");
-            String input = scanner.nextLine();
+        System.out.println("Выберите номер товара и через пробел введите его рейтинг");
+        String input = scanner.nextLine();
 
-            try {
-                if (input.equals("end")) {
-                    break;
-                }
+        try {
+            String[] parts = input.split(" ");
+            int productNumber = Integer.parseInt(parts[0]);
+            int productRating = Integer.parseInt(parts[1]);
 
-                    String[] parts = input.split(" ");
-                    productNumber = Integer.parseInt(parts[0]);
-                    productRating = Integer.parseInt(parts[1]);
-                    Product choiceProduct = products.get(productNumber);
-                    numberOfRatings++;
-                    sumOfRating = (sumOfRating+productRating)/numberOfRatings;
-
-                    rating.put(choiceProduct, sumOfRating);
-
-            } catch (NumberFormatException e) {
-                System.out.println("Не корректный ввод");
-            }
+            choiceProduct = products.get(productNumber);
+            numberOfRatings++;
+            sumOfRating = (sumOfRating + productRating) / numberOfRatings;
+        } catch (NumberFormatException e) {
+            System.out.println("Не корректный ввод");
         }
+        rating.put(choiceProduct, sumOfRating);
 
         System.out.println("Рейтинг товаров:");
         for (Map.Entry<Product, Integer> entry : rating.entrySet()) {

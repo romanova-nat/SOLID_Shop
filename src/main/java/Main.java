@@ -2,7 +2,7 @@ import java.util.*;
 
 public class Main {
     public static void main(String[] args) {
-        
+
         Map<Integer, Product> products = new HashMap<>();
         products.put(1, new Product("English ale", 580, "England", ExpirationDate.YAN, 2023));
         products.put(2, new Product("Beer", 250, "Russia", ExpirationDate.JUL, 2022));
